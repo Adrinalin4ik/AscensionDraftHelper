@@ -1,0 +1,162 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+    <Script file="AscensionDraftHelper.lua"/>
+    <Frame name="AscensionDraftHelperFrame" enableMouse="true" movable="true">
+        <Size x="150" y="220"/>
+        <Anchors>
+            <Anchor point="RIGHT">
+                <Offset>
+                    <AbsDimension x="-400" y="100" />
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\ChatFrame\ChatFrameBackground" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+            <BackgroundInsets left="4" right="4" top="4" bottom="4"/>
+            <EdgeSize val="12"/>
+            <TileSize val="24"/>
+            <Color r="0.1" g="0.3" b="0.4" a="0.9"/>
+            <BorderColor r="1" g="1" b="1" a="1"/>
+        </Backdrop>
+        <Scripts>
+            <OnDragStart>
+                self:StartMoving();
+            </OnDragStart>
+            <OnDragStop>
+                self:StopMovingOrSizing();
+            </OnDragStop>
+            <OnLoad> 
+                self:RegisterForDrag("LeftButton");
+                AscensionDraftHelper:OnLoad();
+            </OnLoad>
+            <OnEvent>
+                AscensionDraftHelper:OnEvent(event);
+            </OnEvent>
+        </Scripts>
+        <Frames>
+            <Button name="$parent_UnlockFrames" text="unlock" inherits="UIPanelButtonTemplate">
+                <Size x="25" y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" y="-5" x="55"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        AscensionDraftHelper:LockInputFrames(false);
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_HideFrameButton" text="" inherits="UIPanelCloseButton">
+                <Size x="25" y="25"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" y="0" x="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        AscensionDraftHelper:SetFrameVisibility(false)
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <!-- <CheckButton name="$parent_RerollBar" inherits="ActionBarButtonTemplate">
+                <Anchors>
+                    <Anchor point="TOP" y="-62"/>
+                </Anchors>
+                <FontString inherits="GameFontNormalSmall"/>
+                <Layers>
+                    <Layer level="OVERLAY ">
+                        <FontString name="$parent_Title" font="Fonts\FRIZQT__.TTF" text="Cards Deck">
+                            <Color r="1" g="1" b="1" a="1"/>
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="-22"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </CheckButton> -->
+            <Button name="$parent_CreateMacroButton" text="Create macro" inherits="UIPanelButtonTemplate">
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="25" y="-105"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                    AscensionDraftHelper:CreateMacro();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_RollButton" text="Roll" inherits="UIPanelButtonTemplate">
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="25" y="-140"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                    AscensionDraftHelper:StartRoll()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button name="$parent_AutoRollButton" text="Auto roll" inherits="UIPanelButtonTemplate">
+                <Size x="100" y="35"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="25" y="-170"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                    AscensionDraftHelper:StartAutoRoll()
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <EditBox name="$parent_Input1" inherits="InputBoxTemplate" autoFocus="false">
+                <Size x="115" y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" y="-40" x="10"/>
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        self:ClearFocus();
+                    </OnEnterPressed>
+                    <OnTextChanged>
+                        AscensionDraftHelper:OnInputEdit(1, self);
+                    </OnTextChanged>
+                </Scripts>
+                <FontString inherits="GameFontNormalSmall"/>
+                <Layers>
+                    <Layer level="OVERLAY ">
+                        <FontString name="$parent_Title" font="Fonts\FRIZQT__.TTF" text="Card ids">
+                            <Color r="1" g="1" b="1" a="1"/>
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="-5" y="20"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </EditBox>
+            <EditBox name="$parent_NumberOfSpells" inherits="InputBoxTemplate" autoFocus="false">
+                <Size x="115" y="25"/>
+                <Anchors>
+                    <Anchor point="TOP" x="10"  y="-80"/>
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        self:ClearFocus();
+                    </OnEnterPressed>
+                    <OnTextChanged>
+                        AscensionDraftHelper:OnNumberOfSpellsEdit(self);
+                    </OnTextChanged>
+                </Scripts>
+                <FontString inherits="GameFontNormalSmall"/>
+                <Layers>
+                    <Layer level="OVERLAY ">
+                        <FontString name="$parent_Title" font="Fonts\FRIZQT__.TTF" text="Number of matches">
+                            <Color r="1" g="1" b="1" a="1"/>
+                            <FontHeight val="12"/>
+                            <Anchors>
+                                <Anchor point="LEFT" x="-5" y="20"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+                </Layers>
+            </EditBox>
+        </Frames>
+    </Frame>
+</Ui>

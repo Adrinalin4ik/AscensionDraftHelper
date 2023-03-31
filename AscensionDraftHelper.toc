@@ -1,0 +1,9 @@
+## Interface: 30300
+## Notes: Auto-roller for Project Ascension
+## Title: Ascension Draft Helper
+## Author: Adrinalin4ik
+## SavedVariablesPerCharacter: NUMBER_OF_MATCHES, SPELL_LIST
+
+# Core
+AscensionDraftHelper.lua
+AscensionDraftHelper.xml
