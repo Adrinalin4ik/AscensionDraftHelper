@@ -8,7 +8,7 @@ AscensionDraftHelper = {
 };
 
 local ROUND = 1;
-local foundSpells = {};
+FOUND_SPELLS = {};
 NUMBER_OF_MATCHES = 3;
 
 function AscensionDraftHelper:log(msg)
@@ -55,7 +55,7 @@ function AscensionDraftHelper:StartAutoRoll()
 
     if enabled then
         AscensionDraftHelperFrame_AutoRollButton:SetText('Stop Auto roll');
-        foundSpells = {};
+        FOUND_SPELLS = {};
         AscensionDraftHelper:AutoRoll();
     else
         AscensionDraftHelperFrame_AutoRollButton:SetText('Start Auto roll')
@@ -72,19 +72,19 @@ function AscensionDraftHelper:AutoRoll()
 end
 
 function AscensionDraftHelper:StartRoll()
-    foundSpells = {};
+    FOUND_SPELLS = {};
     AscensionDraftHelper:SelectOrRoll();
 end
 
 function AscensionDraftHelper:SelectOrRoll()
-    if not (table.getn(foundSpells) == table.getn(SPELL_LIST) or table.getn(foundSpells) == NUMBER_OF_MATCHES) then
+    if not (table.getn(FOUND_SPELLS) == table.getn(SPELL_LIST) or table.getn(FOUND_SPELLS) == NUMBER_OF_MATCHES) then
         print('>>> Round ' .. round);
         local found = AscensionDraftHelper:SelectCard();
         
         if not found then
             print('not found')
             AscensionDraftHelper:Roll();
-            foundSpells = {};
+            FOUND_SPELLS = {};
             round = 1;
         else
             print('found')
@@ -105,12 +105,12 @@ function AscensionDraftHelper:SelectCard()
         local id, name = getCardSpellInfo(i)
         print(id .. " | " ..name)
         
-        for j = 1, 4 do
+        for j = 1, table.getn(SPELL_LIST)+1 do
             if SPELL_LIST[j] == id then
                 print('learning')
                 learnSpellCardAt(i)
                 print('Learned' .. ' | ' .. name)
-                foundSpells[round] = name;
+                FOUND_SPELLS[round] = name;
                 found = true;
                 break
             end
@@ -122,7 +122,7 @@ function AscensionDraftHelper:SelectCard()
         -- if not found then
         --     print('not found')
         --     CardExtraBar.button1:Click();
-        --     foundSpells = {}
+        --     FOUND_SPELLS = {}
         --     round = 1;
         -- else
         --     print('found')
@@ -152,7 +152,7 @@ function AscensionDraftHelper:OnInit()
     AscensionDraftHelper:SetFrameVisibility(AscensionDraftHelper.windowHidden);
     _G["AscensionDraftHelperFrame_Input1"]:SetText(table.concat(SPELL_LIST,", "));
     _G["AscensionDraftHelperFrame_NumberOfSpells"]:SetText(NUMBER_OF_MATCHES);
-    AscensionDraftHelper:SetFrameVisibility(true)
+    -- AscensionDraftHelper:SetFrameVisibility(true)
 end
 
 function AscensionDraftHelper:SetFrameVisibility(status)
